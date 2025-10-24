@@ -11,7 +11,6 @@ export default function WeatherAlerts() {
   const [loading, setLoading] = useState(false);
   const [alerts, setAlerts] = useState([]);
 
-  // Fetch weather for all locations
   const fetchWeather = async () => {
     setLoading(true);
     const newWeatherData = {};
@@ -33,7 +32,6 @@ export default function WeatherAlerts() {
         
         newWeatherData[loc.id] = weather;
         
-        // Check for blue sky alert
         if (weather.isBlueSky) {
           newAlerts.push({
             id: loc.id,
@@ -52,13 +50,10 @@ export default function WeatherAlerts() {
     setLoading(false);
   };
 
-  // Determine if it's a blue sky day
   const isBlueSkyDay = (weatherCode, cloudCover) => {
-    // Weather codes: 0-1 = clear/mainly clear, cloud cover < 30%
     return weatherCode <= 1 && cloudCover < 30;
   };
 
-  // Get weather icon and description
   const getWeatherInfo = (code) => {
     if (code === 0) return { icon: Sun, desc: 'Clear sky', color: 'text-yellow-500' };
     if (code === 1) return { icon: Sun, desc: 'Mainly clear', color: 'text-yellow-400' };
@@ -66,11 +61,9 @@ export default function WeatherAlerts() {
     return { icon: CloudRain, desc: 'Rain', color: 'text-blue-400' };
   };
 
-  // Add new location (simplified - in real app would geocode the name)
   const addLocation = () => {
     if (!newLocation.trim()) return;
     
-    // Simple UK cities database
     const ukCities = {
       'birmingham': { lat: 52.4862, lon: -1.8904 },
       'leeds': { lat: 53.8008, lon: -1.5491 },
@@ -107,7 +100,6 @@ export default function WeatherAlerts() {
 
   useEffect(() => {
     fetchWeather();
-    // Refresh every 30 minutes
     const interval = setInterval(fetchWeather, 30 * 60 * 1000);
     return () => clearInterval(interval);
   }, [locations]);
@@ -115,7 +107,6 @@ export default function WeatherAlerts() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 p-6">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -134,7 +125,6 @@ export default function WeatherAlerts() {
           <p className="text-gray-600">Get notified when there are beautiful clear days in your favorite UK locations</p>
         </div>
 
-        {/* Active Alerts */}
         {alerts.length > 0 && (
           <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl shadow-lg p-6 mb-6">
             <div className="flex items-center gap-2 mb-4">
@@ -156,7 +146,6 @@ export default function WeatherAlerts() {
           </div>
         )}
 
-        {/* Add Location */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Add Location</h2>
           <div className="flex gap-2">
@@ -181,7 +170,6 @@ export default function WeatherAlerts() {
           </p>
         </div>
 
-        {/* Locations Grid */}
         <div className="grid md:grid-cols-2 gap-4">
           {locations.map(loc => {
             const weather = weatherData[loc.id];
@@ -234,7 +222,6 @@ export default function WeatherAlerts() {
           })}
         </div>
 
-        {/* Info */}
         <div className="mt-6 bg-blue-50 rounded-xl p-4 text-sm text-gray-600">
           <p className="font-semibold mb-2">About Blue Sky Days:</p>
           <p>A blue sky day is defined as clear or mainly clear conditions with less than 30% cloud cover. Perfect for outdoor activities, photography, or simply enjoying the British sunshine!</p>
