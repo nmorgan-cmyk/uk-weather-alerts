@@ -243,17 +243,3 @@ export default function WeatherAlerts() {
     </div>
   );
 }
-```
-
-5. Save it (Ctrl+S or Cmd+S)
-
-**Step 9: Create .gitignore (last file!)**
-
-1. Right-click in the main folder (NOT in src)
-2. Click **"New File"**
-3. Type: `.gitignore` and press Enter (yes, it starts with a dot!)
-4. Copy and paste:
-```
-node_modules
-dist
-.DS_Store
